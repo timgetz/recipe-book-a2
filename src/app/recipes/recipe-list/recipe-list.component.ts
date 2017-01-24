@@ -1,6 +1,7 @@
 import {Component, OnInit, Output} from '@angular/core';
 import {Recipe} from "../recipe";
 import {EventEmitter} from "@angular/forms/src/facade/async";
+import {RecipeService} from "../recipe.service";
 
 @Component({
   selector: 'rb-recipe-list',
@@ -8,15 +9,14 @@ import {EventEmitter} from "@angular/forms/src/facade/async";
 })
 export class RecipeListComponent implements OnInit {
 
-  recipes: Recipe[] = [
-    new Recipe('Schnitzel', 'Very tasty', 'http://www.dessertfortwo.com/wp-content/uploads/2014/12/Schnitzel-2.jpg',[]),
-    new Recipe('Summer Salad', 'Okayish', 'http://www.bbcgoodfood.com/sites/default/files/recipe_images/recipe-image-legacy-id--46004_11.jpg',[])
-  ];
+  recipes: Recipe[] = [];
+
   @Output() recipeSelected = new EventEmitter<Recipe>();
 
-  constructor() { }
+  constructor(private recipeService: RecipeService) { }
 
   ngOnInit() {
+    this.recipes = this.recipeService.getRecipes();
   }
 
   onSelected(recipe: Recipe) {
